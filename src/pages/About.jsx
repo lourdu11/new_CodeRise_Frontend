@@ -10,7 +10,7 @@ const team = [
   {
     name: "Lourdu Xavier",
     role: "Founder",
-    skills: ["Leadership", "Decision Making", "MERN Stack Developer", "Devops","AI Integration"],
+    skills: ["Leadership", "Decision Making", "MERN Stack Developer", "Devops","AI Integration","Cloud Deployment"],
     image: "https://ik.imagekit.io/Lourdu/CodeRise/lourdu.jpeg",
     bio: "Founder and full-stack engineer focused on building scalable MERN stack applications, AI-powered solutions, and cloud deployments. Driven by innovation, fast delivery, and creating impactful digital experiences for clients and startups.",
     socials: { linkedin: "https://www.linkedin.com/in/lourdu11", github: "https://github.com/coderisetech2026-ship-it", instagram: "https://www.instagram.com/coderise_tech", portfolio: "https://lourduxavier.xyz" }
@@ -41,8 +41,8 @@ bio: "Frontend developer focused on creating responsive and interactive web inte
     name: "Jaisuvisane",
     role: "Chief Technology Officer",
 
-    skills: ["MERN Stack Developer", "AI Integration", "REST API","UI/UX Designer"],
-    image: "https://ik.imagekit.io/Lourdu/CodeRise/WhatsApp%20Image%202026-03-20%20at%2018.52.08.jpeg",
+    skills: ["MERN Stack Developer", "AI Integration", "Devops","UI/UX Designer","Cloud Deployment"],
+    image: "https://ik.imagekit.io/Lourdu/CodeRise/image.png",
     bio: "Senior MERN Stack Developer specializing in building scalable full-stack applications using MongoDB, Express.js, React, and Node.js. Experienced in developing efficient APIs and integrating modern technologies to deliver high-performance solutions.",
     socials: { linkedin: "https://www.linkedin.com/in/jaisuvisane-j-75665b318", github: "https://github.com/coderisetech2026-ship-it", instagram: "https://www.instagram.com/coderise_tech", portfolio: "https://myportfolio-ten-iota-73.vercel.app" }
 

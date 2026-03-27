@@ -139,7 +139,7 @@ const ProjectDetails = () => {
       </div>
 
       {/* Hero Section with Parallax Background */}
-      <section className="relative h-[70vh] md:h-[85vh] w-full overflow-hidden">
+      <section className="relative h-[60vh] sm:h-[70vh] md:h-[85vh] w-full overflow-hidden">
         {getImageUrl(project.image) && (
           <motion.div 
             style={{ opacity: heroOpacity, scale: heroScale }}
@@ -177,24 +177,24 @@ const ProjectDetails = () => {
 
             <motion.h1 
               variants={fadeInUp}
-              className="text-6xl md:text-9xl font-black font-outfit tracking-tighter mb-10 leading-[0.9] uppercase"
+              className="text-3xl sm:text-5xl md:text-8xl font-black font-outfit tracking-tight mb-6 md:mb-10 leading-tight uppercase"
             >
               {project.title.split(' ').map((word, i) => (
-                <span key={i} className={i % 2 !== 0 ? 'gradient-text' : 'text-white'}>{word} </span>
+                <span key={i} className={i % 2 !== 0 ? 'gradient-text' : ''}>{word} </span>
               ))}
             </motion.h1>
 
             <motion.div 
               variants={fadeInUp}
-              className="flex flex-wrap gap-8 items-center"
+              className="flex flex-wrap gap-3 md:gap-8 items-center"
             >
-               <div className="flex items-center gap-3 glass px-6 py-3 rounded-2xl border-white/5">
-                  <User size={16} className="text-primary-blue" />
-                  <span className="text-xs font-bold tracking-widest uppercase opacity-60">Architect: {project.developer}</span>
+               <div className="flex items-center gap-2 glass px-3 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border-white/5">
+                  <User size={14} className="text-primary-blue" />
+                  <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase opacity-60">Architect: {project.developer}</span>
                </div>
-               <div className="flex items-center gap-3 glass px-6 py-3 rounded-2xl border-white/5">
-                  <Calendar size={16} className="text-primary-blue" />
-                  <span className="text-xs font-bold tracking-widest uppercase opacity-60">Deployed: 2024</span>
+               <div className="flex items-center gap-2 glass px-3 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border-white/5">
+                  <Calendar size={14} className="text-primary-blue" />
+                  <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase opacity-60">Deployed: 2026</span>
                </div>
             </motion.div>
           </motion.div>
@@ -390,7 +390,7 @@ const ProjectDetails = () => {
                 <div className="h-[1px] flex-1 bg-white/5"></div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mb-16 md:mb-32">
                 {/* Include primary image first for 'all images' showcase */}
                 {[project.image, ...(project.images || [])].filter(Boolean).map((img, idx) => (
                   <motion.div
@@ -404,7 +404,7 @@ const ProjectDetails = () => {
                       ease: [0.16, 1, 0.3, 1] 
                     }}
                   >
-                    <TiltCard className="group relative h-[450px] md:h-[650px] rounded-[3.5rem] overflow-hidden glass border border-white/5 hover:border-primary-blue/40 transition-all duration-1000 shadow-2xl">
+                    <TiltCard className="group relative h-[280px] sm:h-[380px] md:h-[550px] rounded-2xl md:rounded-[3.5rem] overflow-hidden glass border border-white/5 hover:border-primary-blue/40 transition-all duration-1000 shadow-2xl">
                       <img 
                         src={getImageUrl(img)} 
                         alt={`${project.title} perspective ${idx + 1}`} 
@@ -449,27 +449,27 @@ const ProjectDetails = () => {
               <div className="h-[1px] flex-1 bg-white/5"></div>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between gap-8 mb-40">
+            <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-8 mb-16 md:mb-40">
               <Link 
                 to={`/projects/${prevProject._id}`}
-                className="group flex flex-col items-start gap-4 p-10 glass rounded-[2.5rem] border-white/5 hover:border-primary-blue/20 hover:bg-white/5 transition-all w-full md:w-5/12"
+                className="group flex flex-col items-start gap-3 p-6 md:p-10 glass rounded-2xl md:rounded-[2.5rem] border-white/5 hover:border-primary-blue/20 hover:bg-white/5 transition-all w-full md:w-5/12"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-blue flex items-center gap-2">
-                  <ChevronLeft size={16} /> Previous Masterpiece
+                  <ChevronLeft size={16} /> Previous
                 </span>
-                <span className="text-2xl md:text-3xl font-bold group-hover:text-primary-blue transition-colors leading-tight">{prevProject.title}</span>
+                <span className="text-lg sm:text-2xl md:text-3xl font-bold group-hover:text-primary-blue transition-colors leading-tight">{prevProject.title}</span>
               </Link>
 
               <Link 
                 to={`/projects/${nextProject._id}`}
-                className="group flex flex-col items-end gap-4 p-10 glass rounded-[2.5rem] border-white/5 hover:border-primary-blue/20 hover:bg-white/5 transition-all w-full md:w-5/12 text-right"
+                className="group flex flex-col items-end gap-3 p-6 md:p-10 glass rounded-2xl md:rounded-[2.5rem] border-white/5 hover:border-primary-blue/20 hover:bg-white/5 transition-all w-full md:w-5/12 text-right"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-blue flex items-center justify-end gap-2">
-                  Next Architecture <ChevronRight size={16} />
+                  Next <ChevronRight size={16} />
                 </span>
-                <span className="text-2xl md:text-3xl font-bold group-hover:text-primary-blue transition-colors leading-tight">{nextProject.title}</span>
+                <span className="text-lg sm:text-2xl md:text-3xl font-bold group-hover:text-primary-blue transition-colors leading-tight">{nextProject.title}</span>
               </Link>
             </div>
           </div>

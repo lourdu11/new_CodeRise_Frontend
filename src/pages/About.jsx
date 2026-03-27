@@ -30,7 +30,7 @@ const team = [
     name: "Makeshwaran ",
     role: "Chief Operating Officer",
 
-    skills: ["HTML","CSS","JAVASCRIPT","BOOTSTRAP","PHP","MySQL"],
+    skills: [ "Data Analyst","HTML","CSS","JAVASCRIPT","BOOTSTRAP","PHP","MySQL"],
     image: "https://ik.imagekit.io/Lourdu/CodeRise/makesh.jpeg",
 bio: "Frontend developer focused on creating responsive and interactive web interfaces using HTML, CSS, JavaScript, and Bootstrap. Passionate about delivering smooth user experiences and modern UI designs.",
     socials: { linkedin: "https://www.linkedin.com/in/makeshwaran-c-a1a65731", github: "https://github.com/coderisetech2026-ship-it", instagram: "https://www.instagram.com/coderise_tech", portfolio: "https://makesh.fast-page.org/" }
@@ -52,7 +52,7 @@ bio: "Frontend developer focused on creating responsive and interactive web inte
     role: "Chief Executive Officer",
 
     skills: ["Communication", "Client Handling", "Relationship Building", "Coordination"],
-    image: "" ,
+    image: "https://ik.imagekit.io/Lourdu/CodeRise/WhatsApp%20Image%202026-03-27%20at%2018.05.44.jpeg" ,
    bio: "Client Relationship Manager focused on building strong client connections and ensuring smooth communication. Skilled in understanding client needs, coordinating with teams, and delivering a seamless experience.",
     socials: { linkedin: "https://www.linkedin.com/in/coderisetech", github: "https://github.com/coderisetech2026-ship-it", instagram: "https://www.instagram.com/coderise_tech", portfolio: "#" }
 

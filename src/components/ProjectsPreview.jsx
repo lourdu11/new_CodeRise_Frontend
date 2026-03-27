@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, X, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, Loader2, Layout } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import TiltCard from './TiltCard';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -11,8 +10,8 @@ const ProjectsPreview = () => {
   const getImageUrl = (img) => {
     if (!img) return null;
     if (img.startsWith('http')) return img;
-    return img.includes('uploads') 
-      ? `${API_URL}${img.startsWith('/') ? '' : '/'}${img}` 
+    return img.includes('uploads')
+      ? `${API_URL}${img.startsWith('/') ? '' : '/'}${img}`
       : img;
   };
 
@@ -38,11 +37,10 @@ const ProjectsPreview = () => {
         if (Array.isArray(res.data)) {
           setProjects(res.data);
         } else {
-          console.error("API Error: Expected array but got", typeof res.data);
           setProjects([]);
         }
       } catch (err) {
-        console.error("Error fetching projects", err);
+        console.error('Error fetching projects', err);
         setProjects([]);
       } finally {
         setLoading(false);
@@ -51,38 +49,54 @@ const ProjectsPreview = () => {
     fetchProjects();
   }, []);
 
+  const filteredProjects = projects.filter(
+    (p) => activeCategory === 'All' || p.category === activeCategory
+  );
 
   return (
-    <section className="py-24 relative">
+    <section className="py-20 relative overflow-hidden">
+      {/* Vibrant background glows */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/8 rounded-full blur-[100px]" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold font-outfit mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-outfit mb-3">
               Elite <span className="gradient-text">Portfolio</span>
             </h2>
-            <p className="max-w-xl italic text-sm md:text-base opacity-80" style={{ color: 'var(--text-alt)' }}>
+            <p
+              className="max-w-xl italic text-sm md:text-base"
+              style={{ color: 'var(--text-alt)' }}
+            >
               A curated collection of high-performance digital architectures engineered for market dominance.
             </p>
           </div>
           {!isProjectsPage && (
-            <Link to="/projects">
-              <button className="glass px-8 py-3 rounded-full hover:bg-white/10 transition-colors border-[var(--surface-border)] text-sm font-bold tracking-widest uppercase">
-                Explore Full Registry
+            <Link to="/projects" className="shrink-0">
+              <button className="glass px-6 py-3 rounded-full hover:bg-white/10 transition-all border border-[var(--surface-border)] text-sm font-bold tracking-widest uppercase hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">
+                Explore All →
               </button>
             </Link>
           )}
         </div>
 
+        {/* Category Filter (Projects page only) */}
         {isProjectsPage && (
-          <div className="flex flex-wrap justify-center gap-4 mb-20">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${
-                  activeCategory === cat 
-                  ? 'bg-primary-blue text-white shadow-xl shadow-primary-blue/30 scale-105' 
-                  : 'glass text-gray-400 hover:text-white hover:border-primary-blue/30'
+                className={`px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                  activeCategory === cat
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl shadow-blue-500/30 scale-105'
+                    : 'glass text-gray-400 hover:text-white hover:border-blue-500/30 hover:bg-white/5'
                 }`}
               >
                 {cat}
@@ -91,77 +105,98 @@ const ProjectsPreview = () => {
           </div>
         )}
 
+        {/* Loading State */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader2 className="animate-spin text-primary-blue" size={48} />
+            <Loader2 className="animate-spin text-blue-500" size={48} />
+          </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="text-center py-20 text-gray-500 italic text-lg">
+            No projects found in <span className="text-blue-400 font-semibold">{activeCategory}</span> category.
           </div>
         ) : (
-          (() => {
-            const filteredProjects = projects.filter(p => activeCategory === 'All' || p.category === activeCategory);
-            return filteredProjects.length === 0 ? (
-              <div className="text-center py-20 text-gray-500 italic">
-                No active deployments found in {activeCategory} sector.
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project._id || index}
-                    initial={{ opacity: 0, scale: 0.9, y: 50, rotateX: 20 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ 
-                      delay: index * 0.1, 
-                      duration: 0.8, 
-                      ease: [0.16, 1, 0.3, 1] 
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <Link to={`/projects/${project._id}`}>
-                      <TiltCard className="group relative overflow-hidden rounded-[2.5rem] glass border border-[var(--surface-border)] hover:border-primary-blue/60 shadow-2xl aspect-[4/5] bg-gradient-to-br from-white/[0.05] to-transparent">
-                        {/* Phase 8: Animated Glow Overlay */}
-                        <div className="absolute inset-0 bg-primary-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl -z-10" />
-                        
-                        {project.image ? (
-                          <img 
-                            src={getImageUrl(project.image)} 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project._id || index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{
+                  delay: Math.min(index * 0.08, 0.4),
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <Link to={`/projects/${project._id}`} className="block h-full">
+                  <div className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-[var(--surface-border)] hover:border-blue-500/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 bg-[var(--surface-color)] hover:-translate-y-1">
+
+                    {/* Image Area */}
+                    <div className="relative overflow-hidden h-48 sm:h-52 md:h-56 bg-gradient-to-br from-blue-900/30 to-purple-900/30">
+                      {project.image ? (
+                        <>
+                          <img
+                            src={getImageUrl(project.image)}
                             alt={project.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 opacity-40 group-hover:opacity-70 scale-110"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-85 group-hover:opacity-100"
                           />
-                        ) : (
-                          <div className="absolute inset-0 bg-primary-blue/20 flex items-center justify-center">
-                            <Layout className="text-primary-blue opacity-50" size={48} />
-                          </div>
-                        )}
-                        
-                        {/* Shimmer Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/20 to-transparent opacity-90 transition-opacity group-hover:opacity-70"></div>
-                        
-                        <div className="absolute inset-0 p-10 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-all duration-700 ease-[0.16,1,0.3,1]">
-                          <span className="text-primary-blue font-black text-[10px] mb-4 block tracking-[0.3em] uppercase bg-primary-blue/10 px-4 py-1.5 rounded-full border border-primary-blue/20 w-fit group-hover:bg-primary-blue group-hover:text-white transition-all duration-500">
-                            {project.category}
-                          </span>
-                          <h3 className="text-3xl md:text-5xl font-bold mb-6 tracking-tighter drop-shadow-2xl leading-none group-hover:text-primary-blue transition-colors">
-                            {project.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-2 mb-8 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover:translate-y-0">
-                            {project.tech && project.tech.slice(0, 3).map((t, i) => (
-                              <span key={i} className="text-[10px] px-3 py-1.5 rounded-lg glass text-inherit border border-white/10 uppercase font-black tracking-widest">{t}</span>
-                            ))}
-                          </div>
-                          
-                          <div className="flex items-center gap-4 text-primary-blue font-bold text-sm tracking-widest uppercase opacity-0 group-hover:opacity-100 translate-x-[-20px] group-hover:translate-x-0 transition-all duration-700 delay-200">
-                            Analyze Blueprint <ExternalLink size={18} />
-                          </div>
+                          {/* Subtle overlay for text readability */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                        </>
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600/20 to-purple-600/20">
+                          <Layout className="text-blue-400 opacity-50" size={48} />
                         </div>
-                      </TiltCard>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            );
-          })()
+                      )}
+
+                      {/* Category badge - always visible */}
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-wider bg-blue-600/90 text-white backdrop-blur-sm">
+                          {project.category}
+                        </span>
+                      </div>
+
+                      {/* Shimmer on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                    </div>
+
+                    {/* Card Body - always visible content */}
+                    <div className="p-4 sm:p-5 md:p-6">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 group-hover:text-blue-400 transition-colors leading-tight" style={{ color: 'var(--text-main)' }}>
+                        {project.title}
+                      </h3>
+
+                      {/* Tech stack */}
+                      {project.tech && project.tech.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {project.tech.slice(0, 4).map((t, i) => (
+                            <span
+                              key={i}
+                              className="text-[10px] px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 uppercase font-bold tracking-wider"
+                              style={{ color: 'var(--text-alt)' }}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                          {project.tech.length > 4 && (
+                            <span className="text-[10px] px-2.5 py-1 rounded-lg bg-blue-600/10 border border-blue-500/20 text-blue-400 font-bold">
+                              +{project.tech.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* CTA */}
+                      <div className="flex items-center gap-2 text-blue-400 font-bold text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>View Project</span>
+                        <ExternalLink size={15} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         )}
       </div>
     </section>

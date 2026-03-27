@@ -48,7 +48,7 @@ bio: "Frontend developer focused on creating responsive and interactive web inte
 
   },
   {
-    name: "Antobendict",
+    name: "Anto benedict",
     role: "Chief Executive Officer",
 
     skills: ["Communication", "Client Handling", "Relationship Building", "Coordination"],
